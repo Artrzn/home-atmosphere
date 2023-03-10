@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS THERMOSTAT_LOG (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  measureTimeStamp TIMESTAMP(9) NOT NULL,
+  livingRoomTemperature FLOAT NOT NULL,
+  bedRoomTemperature FLOAT NOT NULL,
+  relayState VARCHAR(250) NOT NULL
+);

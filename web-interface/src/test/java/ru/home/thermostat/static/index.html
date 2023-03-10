@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="./css/material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="./css/datepicker.css">
+</head>
+<body>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col"></div>
+    <div class="mdl-cell mdl-cell--8-col">
+        <div id="container"></div>
+    </div>
+    <div class="mdl-cell mdl-cell--2-col"></div>
+</div>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--3-col"></div>
+    <div class="mdl-cell mdl-cell--6-col">
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--4-col mdl-cell--middle">
+                <input type="text" id="fromDateInput" autocomplete="off"></input>
+            </div>
+            <div class="mdl-cell mdl-cell--4-col mdl-cell--middle">
+                <input type="text" id="toDateInput" autocomplete="off"></input>
+            </div>
+            <div class="mdl-cell mdl-cell--4-col mdl-cell--middle">
+                <button class="mdl-button mdl-js-button mdl-button--raised" id="update_chart_btn">update_chart</button>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--3-col"></div>
+</div>
+<script src="./js/highcharts.js"></script>
+<script src="./js/material.min.js"></script>
+<script src="./js/datepicker.js"></script>
+<script src="./js/Script.js"></script>
+</body>
+</html>

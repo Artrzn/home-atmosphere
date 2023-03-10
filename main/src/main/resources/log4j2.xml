@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d [%t] %-5level %logger{36} - %msg%n%throwable"/>
+        </Console>
+        <RollingFile name="LogFile" fileName="logs/homeThermostat/Thermostat.log"
+                     filePattern="logs/homeThermostat/%d{MM-dd-yyyy_HH-mm-sss}_Thermostat.log">
+            <PatternLayout>
+                <Pattern>%d{[dd/MM/yy HH:mm:ss:SSS z]} [%t] [%-5p] %c{1} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs/homeThermostat/" maxDepth="1">
+                    <IfAccumulatedFileSize exceeds="300 MB"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="ConsoleAppender"/>
+<!--            <AppenderRef ref="LogFile"/>-->
+        </Root>
+    </Loggers>
+</Configuration>

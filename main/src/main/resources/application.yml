@@ -1,0 +1,24 @@
+server:
+  port: 8090
+  expectedTemperature: 25.0
+  hysteresis: 0.30
+  relayUrl: http://192.168.0.106/relay
+  sensors:
+    livingroom:
+      url: http://192.168.0.102
+      temperatureCoefficient: 1.06
+      priority: 2
+    bedroom:
+      url: http://192.168.0.103
+      temperatureCoefficient: 1.08
+      priority: 1
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h22
+  datasource:
+    url: "jdbc:h2:file:/app/thermostat_production/data_base/thermostatLogDB;INIT=runscript from 'classpath:/homeAtmosphereLog.sql'"
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
