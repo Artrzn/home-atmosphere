@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HeaterModeTests {
 
-    private float expectedTemperature = 25.5f;
-    private float hysteresis = 0.3f;
-    private HeaterMode heaterMode = new HeaterMode(expectedTemperature, hysteresis);
+    private final float expectedTemperature = 25.5f;
+    private final float hysteresis = 0.3f;
+    private final HeaterMode heaterMode = new HeaterMode(expectedTemperature, hysteresis);
 
     @ParameterizedTest
     @MethodSource("getArgumentsForCoolDown")

@@ -13,9 +13,7 @@ import java.util.List;
 public class JdbcCo2MetricsLogReader implements MetricsLogReader<Co2LogMessage> {
 
     private final static Logger LOGGER = LogManager.getLogger(JdbcCo2MetricsLogReader.class);
-    private String selectTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? ORDER BY MEASURETIMESTAMP";
-    private String selectBySensorIdTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? and SENSORID = ? ORDER BY MEASURETIMESTAMP";
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcCo2MetricsLogReader(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -24,6 +22,7 @@ public class JdbcCo2MetricsLogReader implements MetricsLogReader<Co2LogMessage> 
     @Override
     public List<Co2LogMessage> readLog(Timestamp from, Timestamp to) {
         LOGGER.info("Read co2 logs between {} and {}.", from, to);
+        String selectTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? ORDER BY MEASURETIMESTAMP";
         return jdbcTemplate.query(selectTemplate, (resultSet, i) ->
                         new Co2LogMessage(
                                 resultSet.getString(3),
@@ -37,6 +36,7 @@ public class JdbcCo2MetricsLogReader implements MetricsLogReader<Co2LogMessage> 
 
     @Override
     public List<Co2LogMessage> readLogBySensorId(String sensorId, Timestamp from, Timestamp to) {
+        String selectBySensorIdTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? and SENSORID = ? ORDER BY MEASURETIMESTAMP";
         return jdbcTemplate.query(selectBySensorIdTemplate, (resultSet, i) ->
                         new Co2LogMessage(
                                 resultSet.getString(3),

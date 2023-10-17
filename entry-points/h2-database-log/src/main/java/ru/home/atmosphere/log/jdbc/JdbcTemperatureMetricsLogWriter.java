@@ -11,7 +11,7 @@ public class JdbcTemperatureMetricsLogWriter implements MetricsLogWriter<Tempera
 
     private static final String QUERY = "INSERT INTO TEMPERATURE_LOG (measureTimeStamp, sensorId, temperature, heaterState) VALUES (?, ?, ?, ?)";
     private static final String[] HEATER_STATES = new String[]{"WARM_UP", "COOL_DOWN"};
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcTemperatureMetricsLogWriter(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

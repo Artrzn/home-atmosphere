@@ -15,17 +15,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class HumidityProcessingTests {
 
-    private String sensor1Id = "s1";
-    private String sensor2Id = "s2";
-    private String sensor3Id = "s3";
-    private Humidity humidity1 = new Humidity();
-    private Humidity humidity2 = new Humidity();
-    private Humidity humidity3 = new Humidity();
+    private final Humidity humidity1 = new Humidity();
+    private final Humidity humidity2 = new Humidity();
+    private final Humidity humidity3 = new Humidity();
     private MetricsLogWriter<HumidityLogMessage> humidityLog;
     private HumidityProcessing processing;
 
@@ -39,6 +35,9 @@ public class HumidityProcessingTests {
         humidity1.setValue(10.0f);
         humidity2.setValue(20.0f);
         humidity3.setValue(30.0f);
+        String sensor1Id = "s1";
+        String sensor2Id = "s2";
+        String sensor3Id = "s3";
         return Map.of(sensor1Id, humidity1, sensor2Id, humidity2, sensor3Id, humidity3);
     }
 

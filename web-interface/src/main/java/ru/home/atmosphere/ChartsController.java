@@ -18,9 +18,9 @@ import java.util.List;
 public class ChartsController {
 
     private final static Logger LOGGER = LogManager.getLogger(ChartsController.class);
-    private MetricsLogReader<Co2LogMessage> co2LogReader;
-    private MetricsLogReader<HumidityLogMessage> humidityLogReader;
-    private MetricsLogReader<TemperatureLogMessage> temperatureLogReader;
+    private final MetricsLogReader<Co2LogMessage> co2LogReader;
+    private final MetricsLogReader<HumidityLogMessage> humidityLogReader;
+    private final MetricsLogReader<TemperatureLogMessage> temperatureLogReader;
 
     public ChartsController(MetricsLogReader<Co2LogMessage> co2LogReader, MetricsLogReader<HumidityLogMessage> humidityLogReader,
                             MetricsLogReader<TemperatureLogMessage> temperatureLogReader) {

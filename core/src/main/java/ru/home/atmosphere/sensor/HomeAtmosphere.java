@@ -21,7 +21,7 @@ public class HomeAtmosphere {
         Map<String, Temperature> temperature = new HashMap<>();
         Map<String, Humidity> humidity = new HashMap<>();
         Map<String, Co2PPM> co2PPM = new HashMap<>();
-        sensors.entrySet().stream()
+        sensors.entrySet()
                 .forEach(sensorsEntry -> {
                     String sensorName = sensorsEntry.getKey();
                     AtmosphereSensor sensor = sensorsEntry.getValue();

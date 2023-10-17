@@ -5,18 +5,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class HttpHeaterRelayTests {
 
-    private String url = "url";
     private HeaterRelay relay;
     private RelayHttpClient client;
 
     @BeforeEach
     public void init() {
         client = mock(RelayHttpClient.class);
+        String url = "url";
         relay = new HttpHeaterRelay(url, client);
     }
 

@@ -13,13 +13,12 @@ import static org.mockito.Mockito.*;
 
 public class HomeAtmosphereTests {
 
-    private String sensorName1 = "room1";
-    private String sensorName2 = "room2";
-    private String sensorName3 = "room3";
+    private final String sensorName1 = "room1";
+    private final String sensorName2 = "room2";
+    private final String sensorName3 = "room3";
     private AtmosphereSensor sensor1;
     private AtmosphereSensor sensor2;
     private AtmosphereSensor sensor3;
-    private Map<String, AtmosphereSensor> sensors;
     private HomeAtmosphere homeAtmosphere;
 
     @BeforeEach
@@ -27,7 +26,7 @@ public class HomeAtmosphereTests {
         sensor1 = mock(AtmosphereSensor.class);
         sensor2 = mock(AtmosphereSensor.class);
         sensor3 = mock(AtmosphereSensor.class);
-        sensors = Map.of(sensorName1, sensor1, sensorName2, sensor2, sensorName3, sensor3);
+        Map<String, AtmosphereSensor> sensors = Map.of(sensorName1, sensor1, sensorName2, sensor2, sensorName3, sensor3);
         homeAtmosphere = new HomeAtmosphere(sensors);
     }
 

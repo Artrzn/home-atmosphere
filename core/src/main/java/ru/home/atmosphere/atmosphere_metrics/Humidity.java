@@ -1,7 +1,5 @@
 package ru.home.atmosphere.atmosphere_metrics;
 
-import java.sql.Timestamp;
-
 public class Humidity {
 
     private float value;

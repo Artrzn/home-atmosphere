@@ -15,17 +15,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class Co2ProcessingTests {
 
-    private String sensor1Id = "s1";
-    private String sensor2Id = "s2";
-    private String sensor3Id = "s3";
-    private Co2PPM co2PPM1 = new Co2PPM();
-    private Co2PPM co2PPM2 = new Co2PPM();
-    private Co2PPM co2PPM3 = new Co2PPM();
+    private final Co2PPM co2PPM1 = new Co2PPM();
+    private final Co2PPM co2PPM2 = new Co2PPM();
+    private final Co2PPM co2PPM3 = new Co2PPM();
     private MetricsLogWriter<Co2LogMessage> co2Log;
     private Co2Processing processing;
 
@@ -39,6 +35,9 @@ public class Co2ProcessingTests {
         co2PPM1.setValue(10);
         co2PPM2.setValue(20);
         co2PPM3.setValue(30);
+        String sensor1Id = "s1";
+        String sensor2Id = "s2";
+        String sensor3Id = "s3";
         return Map.of(sensor1Id, co2PPM1, sensor2Id, co2PPM2, sensor3Id, co2PPM3);
     }
 

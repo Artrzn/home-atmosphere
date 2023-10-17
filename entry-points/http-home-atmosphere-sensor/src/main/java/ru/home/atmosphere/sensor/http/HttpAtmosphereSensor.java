@@ -14,8 +14,8 @@ import java.net.http.HttpResponse;
 
 public class HttpAtmosphereSensor implements AtmosphereSensor {
 
-    private URI uri;
-    private HttpClient httpClient;
+    private final URI uri;
+    private final HttpClient httpClient;
 
     public HttpAtmosphereSensor(URI uri, HttpClient httpClient) {
         this.uri = uri;

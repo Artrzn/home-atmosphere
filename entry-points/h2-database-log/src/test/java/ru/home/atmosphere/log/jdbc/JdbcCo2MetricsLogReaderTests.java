@@ -14,13 +14,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class JdbcCo2MetricsLogReaderTests {
 
-    private String selectTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? ORDER BY MEASURETIMESTAMP";
-    private String selectBySensorIdTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? and SENSORID = ? ORDER BY MEASURETIMESTAMP";
+    private final String selectTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? ORDER BY MEASURETIMESTAMP";
+    private final String selectBySensorIdTemplate = "SELECT * FROM CO2_LOG WHERE MEASURETIMESTAMP BETWEEN ? and ? and SENSORID = ? ORDER BY MEASURETIMESTAMP";
     private JdbcTemplate jdbcTemplate;
     private MetricsLogReader<Co2LogMessage> logReader;
 

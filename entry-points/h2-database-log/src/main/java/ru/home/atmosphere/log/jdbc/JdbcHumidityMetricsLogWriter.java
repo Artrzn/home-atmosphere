@@ -10,7 +10,7 @@ import java.util.List;
 public class JdbcHumidityMetricsLogWriter implements MetricsLogWriter<HumidityLogMessage> {
 
     private static final String QUERY = "INSERT INTO HUMIDITY_LOG (measureTimeStamp, sensorId, humidity) VALUES (?, ?, ?)";
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcHumidityMetricsLogWriter(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

@@ -1,7 +1,5 @@
 package ru.home.atmosphere.atmosphere_metrics;
 
-import java.sql.Timestamp;
-
 public class Co2PPM {
 
     private int value;

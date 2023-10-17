@@ -2,8 +2,8 @@ package ru.home.atmosphere.processing.temperature;
 
 public class HeaterMode {
 
-    private float expectedTemperature;
-    private float hysteresis;
+    private final float expectedTemperature;
+    private final float hysteresis;
     private boolean isNeedToWarmUp;
 
     public HeaterMode(float expectedTemperature, float hysteresis) {

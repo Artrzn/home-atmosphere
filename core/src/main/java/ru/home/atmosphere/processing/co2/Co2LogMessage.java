@@ -4,13 +4,12 @@ import ru.home.atmosphere.atmosphere_metrics.Co2PPM;
 import ru.home.atmosphere.log.LogMessage;
 
 import java.sql.Timestamp;
-import java.util.Optional;
 
 public class Co2LogMessage implements LogMessage<Co2PPM> {
 
-    private String sensorId;
-    private Co2PPM co2Metric;
-    private Timestamp measureTimeStamp;
+    private final String sensorId;
+    private final Co2PPM co2Metric;
+    private final Timestamp measureTimeStamp;
 
     public Co2LogMessage(String sensorId, Co2PPM co2Metric, Timestamp measureTimeStamp) {
         this.sensorId = sensorId;

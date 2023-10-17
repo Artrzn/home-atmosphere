@@ -9,8 +9,8 @@ import ru.home.atmosphere.sensor.SensorException;
 public class SensorWithTemperatureCoefficientWrapper implements AtmosphereSensor {
 
     private final static Logger LOGGER = LogManager.getLogger(SensorWithTemperatureCoefficientWrapper.class);
-    private float coefficient;
-    private AtmosphereSensor wrappedSensor;
+    private final float coefficient;
+    private final AtmosphereSensor wrappedSensor;
 
     public SensorWithTemperatureCoefficientWrapper(float coefficient, AtmosphereSensor wrappedSensor) {
         this.coefficient = coefficient;

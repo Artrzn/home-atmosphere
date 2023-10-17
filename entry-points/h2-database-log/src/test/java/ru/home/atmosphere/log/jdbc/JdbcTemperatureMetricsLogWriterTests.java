@@ -9,7 +9,6 @@ import ru.home.atmosphere.log.MetricsLogWriter;
 import ru.home.atmosphere.processing.temperature.TemperatureLogMessage;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 

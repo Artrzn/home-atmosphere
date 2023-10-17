@@ -10,7 +10,7 @@ import java.util.List;
 public class JdbcCo2MetricsLogWriter implements MetricsLogWriter<Co2LogMessage> {
 
     private static final String QUERY = "INSERT INTO CO2_LOG (measureTimeStamp, sensorId, co2ppm) VALUES (?, ?, ?)";
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcCo2MetricsLogWriter(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

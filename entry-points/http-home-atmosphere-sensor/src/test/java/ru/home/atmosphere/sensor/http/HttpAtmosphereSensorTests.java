@@ -14,18 +14,16 @@ import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class HttpAtmosphereSensorTests {
 
-    private URI uri;
     private HttpClient httpClient;
     private HttpAtmosphereSensor sensor;
 
     @BeforeEach
     public void init() throws URISyntaxException {
-        uri  = new URI("http://localhost");
+        URI uri = new URI("http://localhost");
         httpClient = mock(HttpClient.class);
         sensor = new HttpAtmosphereSensor(uri, httpClient);
     }

@@ -3,21 +3,19 @@ package ru.home.atmosphere.processing.co2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.home.atmosphere.atmosphere_metrics.Co2PPM;
-import ru.home.atmosphere.atmosphere_metrics.Temperature;
 import ru.home.atmosphere.log.MetricsLogWriter;
 import ru.home.atmosphere.processing.MetricsProcessing;
 import ru.home.atmosphere.processing.ProcessingException;
-import ru.home.atmosphere.processing.temperature.TemperatureLogMessage;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Co2Processing implements MetricsProcessing<Map<String, Co2PPM>> {
 
     private final static Logger LOGGER = LogManager.getLogger(Co2Processing.class);
-    private MetricsLogWriter<Co2LogMessage> co2Log;
+    private final MetricsLogWriter<Co2LogMessage> co2Log;
 
     public Co2Processing(MetricsLogWriter<Co2LogMessage> co2Log) {
         this.co2Log = co2Log;

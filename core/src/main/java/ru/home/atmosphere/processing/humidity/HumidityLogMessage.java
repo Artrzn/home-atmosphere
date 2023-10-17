@@ -4,14 +4,12 @@ import ru.home.atmosphere.atmosphere_metrics.Humidity;
 import ru.home.atmosphere.log.LogMessage;
 
 import java.sql.Timestamp;
-import java.util.Map;
-import java.util.Optional;
 
 public class HumidityLogMessage implements LogMessage<Humidity> {
 
-    private String sensorId;
-    private Humidity humidityMetric;
-    private Timestamp measureTimeStamp;
+    private final String sensorId;
+    private final Humidity humidityMetric;
+    private final Timestamp measureTimeStamp;
 
     public HumidityLogMessage(String sensorId, Humidity humidityMetric, Timestamp measureTimeStamp) {
         this.sensorId = sensorId;
