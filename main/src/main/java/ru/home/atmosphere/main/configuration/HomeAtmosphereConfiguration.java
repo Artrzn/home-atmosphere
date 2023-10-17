@@ -4,25 +4,28 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import ru.home.atmosphere.log.MetricsLogWriter;
+import ru.home.atmosphere.main.SensorWithTemperatureCoefficientWrapper;
 import ru.home.atmosphere.processing.co2.Co2LogMessage;
 import ru.home.atmosphere.processing.co2.Co2Processing;
 import ru.home.atmosphere.processing.humidity.HumidityLogMessage;
 import ru.home.atmosphere.processing.humidity.HumidityProcessing;
 import ru.home.atmosphere.processing.temperature.HeaterMode;
-import ru.home.atmosphere.processing.temperature.PriorityTemperature;
 import ru.home.atmosphere.processing.temperature.TemperatureLogMessage;
 import ru.home.atmosphere.processing.temperature.TemperatureProcessing;
 import ru.home.atmosphere.processing.temperature.heater_relay.HeaterRelay;
 import ru.home.atmosphere.processing.temperature.heater_relay.HttpHeaterRelay;
 import ru.home.atmosphere.processing.temperature.heater_relay.RelayHttpClient;
+import ru.home.atmosphere.processing.temperature.priority.PriorityByTimePeriod;
+import ru.home.atmosphere.processing.temperature.priority.PriorityByWeight;
+import ru.home.atmosphere.processing.temperature.priority.PriorityTemperature;
 import ru.home.atmosphere.sensor.AtmosphereSensor;
 import ru.home.atmosphere.sensor.HomeAtmosphere;
 import ru.home.atmosphere.sensor.http.HttpAtmosphereSensor;
-import ru.home.atmosphere.main.SensorWithTemperatureCoefficientWrapper;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +33,46 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "server")
 public class HomeAtmosphereConfiguration {
 
-    private Map<String, Map<String, String>> sensors;
+    public static class Sensor {
+        private String url;
+        private float temperatureCoefficient;
+        private int priorityWeight;
+        private String[] priorityTimePeriod;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public float getTemperatureCoefficient() {
+            return temperatureCoefficient;
+        }
+
+        public void setTemperatureCoefficient(float temperatureCoefficient) {
+            this.temperatureCoefficient = temperatureCoefficient;
+        }
+
+        public int getPriorityWeight() {
+            return priorityWeight;
+        }
+
+        public void setPriorityWeight(int priorityWeight) {
+            this.priorityWeight = priorityWeight;
+        }
+
+        public String[] getPriorityTimePeriod() {
+            return priorityTimePeriod;
+        }
+
+        public void setPriorityTimePeriod(String[] priorityTimePeriod) {
+            this.priorityTimePeriod = priorityTimePeriod;
+        }
+    }
+
+    private Map<String, Sensor> sensors;
     private float expectedTemperature;
     private float hysteresis;
     private String relayUrl;
@@ -42,10 +84,10 @@ public class HomeAtmosphereConfiguration {
 
     public Map<String, AtmosphereSensor> getAtmosphereSensors() throws URISyntaxException {
         Map<String, AtmosphereSensor> resultSensors = new HashMap<>();
-        for (Map.Entry<String, Map<String, String>> entry : sensors.entrySet()) {
-            URI uri = new URI(entry.getValue().get("url"));
+        for (Map.Entry<String, Sensor> entry : sensors.entrySet()) {
+            URI uri = new URI(entry.getValue().getUrl());
             HttpClient httpClient = HttpClient.newBuilder().build();
-            float temperatureCoefficient = Float.parseFloat(entry.getValue().get("temperatureCoefficient"));
+            float temperatureCoefficient = entry.getValue().getTemperatureCoefficient();
             AtmosphereSensor wrappedSensor = new HttpAtmosphereSensor(uri, httpClient);
             resultSensors.put(entry.getKey(), new SensorWithTemperatureCoefficientWrapper(temperatureCoefficient, wrappedSensor));
         }
@@ -54,18 +96,33 @@ public class HomeAtmosphereConfiguration {
 
     @Bean
     public TemperatureProcessing getTemperatureProcessing(MetricsLogWriter<TemperatureLogMessage> metricsLogWriter) {
-        PriorityTemperature priorityTemperature = getPriorityTemperature();
+        PriorityTemperature priorityByWeight = getPriorityTemperature();
         HeaterMode heaterMode = new HeaterMode(expectedTemperature, hysteresis);
         HeaterRelay heaterRelay = new HttpHeaterRelay(relayUrl, new RelayHttpClient());//todo привести к общему виду
-        return new TemperatureProcessing(priorityTemperature, heaterMode, heaterRelay, metricsLogWriter);
+        return new TemperatureProcessing(priorityByWeight, heaterMode, heaterRelay, metricsLogWriter);
     }
 
     public PriorityTemperature getPriorityTemperature() {
-        Map<String, Integer> prioritySensors = new HashMap<>();
-        for (Map.Entry<String, Map<String, String>> entry : sensors.entrySet()) {
-            prioritySensors.put(entry.getKey(), Integer.valueOf(entry.getValue().get("priority")));
+        boolean byTimePeriod = sensors.values().stream()
+                .allMatch(sensor -> sensor.getPriorityTimePeriod() != null);
+        if (byTimePeriod) {
+            Map<String, LocalTime[]> priorityByTime = new HashMap<>();
+            for (Map.Entry<String, Sensor> entry : sensors.entrySet()) {
+                String[] periodString = entry.getValue().getPriorityTimePeriod();
+                int fromHour = Integer.parseInt(periodString[0].split(":")[0]);
+                int fromMinutes = Integer.parseInt(periodString[0].split(":")[1]);
+                int toHour = Integer.parseInt(periodString[1].split(":")[0]);
+                int toMinutes = Integer.parseInt(periodString[1].split(":")[1]);
+                priorityByTime.put(entry.getKey(), new LocalTime[]{LocalTime.of(fromHour, fromMinutes), LocalTime.of(toHour, toMinutes)});
+            }
+            return new PriorityByTimePeriod(priorityByTime);
+        } else {
+            Map<String, Integer> prioritySensors = new HashMap<>();
+            for (Map.Entry<String, Sensor> entry : sensors.entrySet()) {
+                prioritySensors.put(entry.getKey(), entry.getValue().getPriorityWeight());
+            }
+            return new PriorityByWeight(prioritySensors);
         }
-        return new PriorityTemperature(prioritySensors);
     }
 
     @Bean
@@ -78,11 +135,11 @@ public class HomeAtmosphereConfiguration {
         return new Co2Processing(metricsLogWriter);
     }
 
-    public Map<String, Map<String, String>> getSensors() {
+    public Map<String, Sensor> getSensors() {
         return sensors;
     }
 
-    public void setSensors(Map<String, Map<String, String>> sensors) {
+    public void setSensors(Map<String, Sensor> sensors) {
         this.sensors = sensors;
     }
 

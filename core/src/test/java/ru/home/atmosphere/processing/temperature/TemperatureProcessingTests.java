@@ -8,6 +8,7 @@ import ru.home.atmosphere.log.MetricsLogWriter;
 import ru.home.atmosphere.processing.ProcessingException;
 import ru.home.atmosphere.processing.temperature.heater_relay.HeaterRelay;
 import ru.home.atmosphere.processing.temperature.heater_relay.RelayException;
+import ru.home.atmosphere.processing.temperature.priority.PriorityTemperature;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -20,12 +21,9 @@ import static org.mockito.Mockito.*;
 
 public class TemperatureProcessingTests {
 
-    private String sensor1Id = "s1";
-    private String sensor2Id = "s2";
-    private String sensor3Id = "s3";
-    private Temperature temperature1 = new Temperature();
-    private Temperature temperature2 = new Temperature();
-    private Temperature temperature3 = new Temperature();
+    private final Temperature temperature1 = new Temperature();
+    private final Temperature temperature2 = new Temperature();
+    private final Temperature temperature3 = new Temperature();
     private PriorityTemperature priorityTemperature;
     private HeaterRelay relay;
     private HeaterMode heaterMode;
@@ -45,6 +43,9 @@ public class TemperatureProcessingTests {
         temperature1.setValue(10.0f);
         temperature2.setValue(20.0f);
         temperature3.setValue(30.0f);
+        String sensor1Id = "s1";
+        String sensor2Id = "s2";
+        String sensor3Id = "s3";
         return Map.of(sensor1Id, temperature1, sensor2Id, temperature2, sensor3Id, temperature3);
     }
 

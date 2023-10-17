@@ -8,6 +8,7 @@ import ru.home.atmosphere.processing.MetricsProcessing;
 import ru.home.atmosphere.processing.ProcessingException;
 import ru.home.atmosphere.processing.temperature.heater_relay.HeaterRelay;
 import ru.home.atmosphere.processing.temperature.heater_relay.RelayException;
+import ru.home.atmosphere.processing.temperature.priority.PriorityTemperature;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -17,10 +18,10 @@ import java.util.stream.Collectors;
 public class TemperatureProcessing implements MetricsProcessing<Map<String, Temperature>> {
 
     private final static Logger LOGGER = LogManager.getLogger(TemperatureProcessing.class);
-    private PriorityTemperature priorityTemperature;
-    private HeaterMode heaterMode;
-    private HeaterRelay heaterRelay;
-    private MetricsLogWriter<TemperatureLogMessage> temperatureLog;
+    private final PriorityTemperature priorityTemperature;
+    private final HeaterMode heaterMode;
+    private final HeaterRelay heaterRelay;
+    private final MetricsLogWriter<TemperatureLogMessage> temperatureLog;
 
     public TemperatureProcessing(PriorityTemperature priorityTemperature, HeaterMode heaterMode, HeaterRelay heaterRelay,
                                  MetricsLogWriter<TemperatureLogMessage> temperatureLog) {

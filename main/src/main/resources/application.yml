@@ -7,11 +7,17 @@ server:
     livingroom:
       url: http://192.168.0.102
       temperatureCoefficient: 1.06
-      priority: 2
+      priorityWeight: 2
+      priorityTimePeriod:
+        - "8:01"
+        - "21:59"
     bedroom:
       url: http://192.168.0.103
       temperatureCoefficient: 1.08
-      priority: 1
+      priorityWeight: 1
+      priorityTimePeriod:
+        - "22:00"
+        - "8:00"
 spring:
   h2:
     console:

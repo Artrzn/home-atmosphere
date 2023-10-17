@@ -1,6 +1,5 @@
 package ru.home.atmosphere.atmosphere_metrics;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Temperature {
