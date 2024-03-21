@@ -22,7 +22,7 @@ public class HttpHeaterRelay implements HeaterRelay {
     @Override
     public void switchOn() throws RelayException {
         HttpPost switchOnRequest = new HttpPost(url);
-        List<NameValuePair> requestParameters = List.of(new BasicNameValuePair("RelayState", "on"));
+        List<NameValuePair> requestParameters = List.of(new BasicNameValuePair("relay_state", "on"));
         switchOnRequest.setEntity(new UrlEncodedFormEntity(requestParameters, Consts.UTF_8));
         int code = client.execute(switchOnRequest);
         if (HttpStatus.SC_OK != code) {
@@ -33,7 +33,7 @@ public class HttpHeaterRelay implements HeaterRelay {
     @Override
     public void switchOff() throws RelayException {
         HttpPost switchOffRequest = new HttpPost(url);
-        List<NameValuePair> requestParameters = List.of(new BasicNameValuePair("RelayState", "off"));
+        List<NameValuePair> requestParameters = List.of(new BasicNameValuePair("relay_state", "off"));
         switchOffRequest.setEntity(new UrlEncodedFormEntity(requestParameters, Consts.UTF_8));
         int code = client.execute(switchOffRequest);
         if (HttpStatus.SC_OK != code) {
